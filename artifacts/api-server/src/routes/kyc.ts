@@ -3,7 +3,6 @@ import { db } from "@workspace/db";
 import { kycDocumentsTable } from "@workspace/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { requireAuth } from "../lib/admin-middleware";
-import { uploadToCloudinary } from "../lib/cloudinary";
 
 const router: IRouter = Router();
 
@@ -29,33 +28,24 @@ router.post("/kyc/submit", async (req: Request, res: Response) => {
     return;
   }
 
-  // Max 5MB base64
-  if (fileDataBase64.length > 7_000_000) {
-    res.status(400).json({ message: "File too large. Max 5MB." });
+  // Max 3MB base64 (base64 is ~33% larger than original, so 3MB file ≈ 4MB base64)
+  if (fileDataBase64.length > 4_200_000) {
+    res.status(400).json({ message: "File too large. Max 3MB." });
     return;
   }
 
-  try {
-    // Upload to Cloudinary
-    const fileUrl = await uploadToCloudinary(fileDataBase64, fileName, mimeType, 'kyc-documents');
+  const [doc] = await db
+    .insert(kycDocumentsTable)
+    .values({ userId, docType, fileDataBase64, fileName, mimeType, status: "pending" })
+    .returning();
 
-    // Store URL in database
-    const [doc] = await db
-      .insert(kycDocumentsTable)
-      .values({ userId, docType, fileUrl, fileName, mimeType, status: "pending" })
-      .returning();
-
-    res.status(201).json({
-      id: doc.id,
-      docType: doc.docType,
-      fileName: doc.fileName,
-      status: doc.status,
-      createdAt: doc.createdAt,
-    });
-  } catch (error) {
-    req.log.error({ err: error }, "KYC upload failed");
-    res.status(500).json({ message: "Failed to upload document. Please try again." });
-  }
+  res.status(201).json({
+    id: doc.id,
+    docType: doc.docType,
+    fileName: doc.fileName,
+    status: doc.status,
+    createdAt: doc.createdAt,
+  });
 });
 
 router.get("/kyc/status", async (req: Request, res: Response) => {

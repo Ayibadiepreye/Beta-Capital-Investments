@@ -23,7 +23,7 @@ export default function KycModal({ onClose }: KycModalProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
-    if (f.size > 5 * 1024 * 1024) { setError('File must be under 5MB'); return; }
+    if (f.size > 3 * 1024 * 1024) { setError('File must be under 3MB'); return; }
     const allowed = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
     if (!allowed.includes(f.type)) { setError('Only JPEG, PNG, WebP, or PDF files are accepted'); return; }
     setFile(f);
@@ -97,7 +97,7 @@ export default function KycModal({ onClose }: KycModalProps) {
             )}
 
             <div className="bg-brand-bg/60 border border-brand-border/60 rounded-lg p-3 text-xs font-sans text-brand-muted">
-              Upload a clear, readable copy of your government-issued ID. Ensure all text is clearly visible. Max 5MB.
+              Upload a clear, readable copy of your government-issued ID. Ensure all text is clearly visible. Max 3MB.
             </div>
 
             {/* Document Type */}
@@ -138,7 +138,7 @@ export default function KycModal({ onClose }: KycModalProps) {
                   <>
                     <Upload className="w-8 h-8 text-brand-muted mx-auto mb-2" />
                     <p className="text-xs font-sans text-brand-muted">Click to select file</p>
-                    <p className="text-[10px] font-sans text-brand-muted/60 mt-0.5">JPEG, PNG, WebP, PDF · Max 5MB</p>
+                    <p className="text-[10px] font-sans text-brand-muted/60 mt-0.5">JPEG, PNG, WebP, PDF · Max 3MB</p>
                   </>
                 )}
               </div>
