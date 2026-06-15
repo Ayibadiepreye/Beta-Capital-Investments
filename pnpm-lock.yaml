@@ -195,7 +195,7 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1
       cloudinary:
-        specifier: ^2.10.0
+        specifier: ^2.5.1
         version: 2.10.0
       connect-pg-simple:
         specifier: ^9.0.1
