@@ -1,0 +1,85 @@
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
+dist
+tmp
+out-tsc
+*.tsbuildinfo
+.expo
+.expo-shared
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# Replit
+.cache/
+.local/
+
+
+Refund Completion	https://alphavest.space/api/payments/monnify/webhook
+Disbursement	https://alphavest.space/api/payments/monnify/webhook
+Settlement	https://alphavest.space/api/payments/monnify/webhook
+Mandate	https://alphavest.space/api/payments/monnify/webhook
+Wallet Activity Notification	https://alphavest.space/api/payments/monnify/webhook
+Low Balance Notification	https://alphavest.space/api/payments/monnify/webhook
+
+
+
+
+
+
+
+
+
+https://alphavest.space/api/payments/monnify/webhook
+
+
+
+curl -i -X POST https://sandbox.monnify.com/api/v1/merchant/transactions/init-transaction \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Basic <BASE64_API_KEY:SECRET_KEY>" \
+  -d '{
+    "amount": 100.00,
+    "customerName": "Test User",
+    "customerEmail": "test@example.com",
+    "paymentReference": "diag_'$(date +%s)'",
+    "paymentDescription": "Diagnostic test",
+    "currencyCode": "NGN",
+    "contractCode": "1755879479",
+    "redirectUrl": "https://alphavest.space/api/payments/monnify/webhook",
+    "paymentMethods": ["CARD"]
+  }'
+
