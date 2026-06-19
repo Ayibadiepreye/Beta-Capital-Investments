@@ -1,5 +1,5 @@
 import { Router, type IRouter, type Request, type Response } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { db } from "@workspace/db";
 import { usersTable, otpsTable, notificationsTable } from "@workspace/db/schema";
 import { eq, and, gt } from "drizzle-orm";
