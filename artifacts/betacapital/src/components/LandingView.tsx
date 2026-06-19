@@ -97,7 +97,6 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
   const [plansContainerRef, plansCardsVisible] = useStaggerAnimation(INVESTMENT_PLANS.length, 150);
   const [sectorsContainerRef, sectorsVisible] = useScrollAnimation<HTMLDivElement>();
   const [marketRef, marketVisible] = useScrollAnimation<HTMLElement>();
-  const [paymentRef, paymentVisible] = useScrollAnimation<HTMLElement>();
   const [faqRef, faqVisible] = useScrollAnimation<HTMLDivElement>();
   const [ctaRef, ctaVisible] = useScrollAnimation<HTMLElement>();
 
@@ -412,30 +411,6 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
           </div>
         </section>
 
-        {/* ── Payment Methods ── */}
-        <section ref={paymentRef} className={`py-16 px-6 md:px-16 bg-brand-surface/20 border-y border-brand-border ${paymentVisible ? '' : 'scroll-hidden'}`}>
-          <div className="max-w-5xl mx-auto">
-            <div className={`text-center mb-8 ${paymentVisible ? 'animate-fade-in-up' : ''}`}>
-              <span className="text-brand-gold text-xs tracking-widest font-bold block uppercase mb-2 font-sans">Trusted & Verified</span>
-              <h2 className="text-2xl md:text-3xl text-brand-text mb-3">Deposit & Withdrawal Methods</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { name: 'Paystack', desc: 'Card & bank transfer', icon: '💳' },
-                { name: 'Flutterwave', desc: 'Global payments', icon: '🌍' },
-                { name: 'Monnify', desc: 'NGN bank transfer', icon: '🏦' },
-                { name: 'Crypto', desc: 'BTC · ETH · USDT · SOL', icon: '₿' },
-              ].map((m, index) => (
-                <div key={m.name} className={`bg-brand-surface border border-brand-border rounded-lg p-4 text-center hover:border-brand-gold/40 transition-colors ${paymentVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: `${index * 100 + 200}ms` }}>
-                  <div className="text-2xl mb-2">{m.icon}</div>
-                  <div className="text-sm font-semibold text-brand-text mb-1">{m.name}</div>
-                  <div className="text-[11px] text-brand-muted font-sans">{m.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── FAQ ── */}
         <section ref={faqRef} className={`py-24 px-6 md:px-16 bg-brand-bg ${faqVisible ? '' : 'scroll-hidden'}`}>
           <div className="max-w-3xl mx-auto">
@@ -604,7 +579,7 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
               </div>
               <div>
                 <h3 className="text-brand-text font-bold mb-2">Withdrawal Policy</h3>
-                <p>Withdrawals are processed within 1–3 business days after admin review. Early exit from an active position incurs a 5% penalty on principal. Accrued yield is always returned.</p>
+                <p>Withdrawals are processed within 1–3 business days after admin review. All investment positions have a minimum 30-day hold period — only your available liquidity balance is eligible for withdrawal at any time. Accrued yield from matured positions is credited to your liquidity upon maturity.</p>
               </div>
               <div>
                 <h3 className="text-brand-text font-bold mb-2">KYC / AML</h3>

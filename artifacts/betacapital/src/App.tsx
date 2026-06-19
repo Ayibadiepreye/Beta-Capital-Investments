@@ -7,6 +7,7 @@ import DashboardView from "./components/DashboardView";
 import OTPVerifyView from "./components/OTPVerifyView";
 import ForgotPasswordView from "./components/ForgotPasswordView";
 import AdminDashboard from "./components/AdminDashboard";
+import PendingView from "./components/PendingView";
 import CookieConsent from "./components/CookieConsent";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
 import { PlatformProvider } from "./context/PlatformContext";
@@ -35,7 +36,7 @@ function getThemeCookie(): ColorThemeType {
 }
 
 function setThemeCookie(theme: ColorThemeType) {
-  const maxAge = 60 * 60 * 24 * 365; // 1 year
+  const maxAge = 60 * 60 * 24 * 365;
   document.cookie = `${THEME_COOKIE}=${theme};max-age=${maxAge};path=/;SameSite=Lax`;
 }
 
@@ -59,36 +60,27 @@ const DEFAULT_SESSION: UserSession = {
   theme: getThemeCookie(),
 };
 
-// Apply saved theme immediately (before React renders) to avoid flash
 applyTheme(DEFAULT_SESSION.theme);
 
-// Inject tawk.to live chat widget with brand theming
 function injectTawkTo() {
   const TAWK_PROPERTY_ID = "6a2abea9135ef41c3064d7ee";
   const TAWK_WIDGET_ID = "1jqrfhhj9";
 
-  // Pre-configure Tawk API before script loads to apply brand theme
   const w = window as unknown as Record<string, unknown>;
   w.Tawk_LoadStart = new Date();
   w.Tawk_API = w.Tawk_API ?? {};
   const api = w.Tawk_API as Record<string, unknown>;
-  // Position & z-index config
   api.customStyle = { zIndex: 9990 };
-  // Apply brand gold theme after widget loads
   api.onLoad = function () {
     const tawk = w.Tawk_API as {
       setAttributes?: (attrs: Record<string, string>, cb: () => void) => void;
-      hideWidget?: () => void;
-      showWidget?: () => void;
     };
     try {
-      // Set custom styling via embedded CSS
       const style = document.createElement("style");
       style.textContent = `
         .tawk-min-container .tawk-button-circle { background-color: #F2CA50 !important; }
         .tawk-button-circle svg { fill: #0a0f14 !important; }
         .tawk-badge { background-color: #F2CA50 !important; color: #0a0f14 !important; }
-        iframe[title="chat widget"] { filter: none !important; }
       `;
       document.head.appendChild(style);
       tawk.setAttributes?.({ source: "Beta Capital Investment" }, () => {});
@@ -119,47 +111,30 @@ function AppInner() {
   const [session, setSession] = useState<UserSession>(DEFAULT_SESSION);
   const [authChecked, setAuthChecked] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState("");
+  const [pendingEmail, setPendingEmail] = useState("");
   const [globalError, setGlobalError] = useState("");
 
   const { data: me, isLoading: meLoading } = useGetMe({
     query: { retry: false, queryKey: getGetMeQueryKey() },
   });
 
-  // Apply theme whenever session theme changes
   useEffect(() => {
     applyTheme(session.theme);
     setThemeCookie(session.theme);
   }, [session.theme]);
 
-  // Inject Tawk.to chat widget once on mount
   useEffect(() => {
     injectTawkTo();
   }, []);
 
-  // Check for Google OAuth redirect result or deposit success
+  // Clean up any legacy OAuth URL params
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("google_auth") === "success") {
-      window.history.replaceState({}, "", window.location.pathname);
-    }
-    const authErr = params.get("auth_error");
-    if (authErr) {
-      window.history.replaceState({}, "", window.location.pathname);
-      const msg =
-        authErr === "not_configured"
-          ? "Google sign-in is not yet configured. Please use email & password."
-          : authErr === "no_email"
-            ? "Google account has no email. Please use email & password."
-            : "Google sign-in failed. Please use email & password.";
-      setGlobalError(msg);
-      setTimeout(() => setGlobalError(""), 8000);
-    }
-    if (params.get("deposit") === "success") {
+    if (params.get("google_auth") || params.get("auth_error") || params.get("deposit")) {
       window.history.replaceState({}, "", window.location.pathname);
     }
   }, []);
 
-  // Hydrate session from /api/auth/me on load
   useEffect(() => {
     if (meLoading) return;
     if (me) {
@@ -179,7 +154,8 @@ function AppInner() {
       if (
         currentScreen === "landing" ||
         currentScreen === "login" ||
-        currentScreen === "signup"
+        currentScreen === "signup" ||
+        currentScreen === "pending"
       ) {
         const isAdmin = (me as { isAdmin?: boolean }).isAdmin;
         setCurrentScreen(isAdmin ? "admin" : "dashboard");
@@ -223,19 +199,20 @@ function AppInner() {
     handleNavigate(user.isAdmin ? "admin" : "dashboard");
   };
 
-  const handleSignupSuccess = (emailOrUser: string | SignupUser) => {
-    if (typeof emailOrUser === "string") {
-      // Email service active — go to OTP verification screen
+  const handleSignupSuccess = (emailOrUser: string | SignupUser | { pending: true; email: string }) => {
+    if (typeof emailOrUser === "object" && "pending" in emailOrUser) {
+      // New flow: account pending admin verification
+      setPendingEmail(emailOrUser.email);
+      handleNavigate("pending");
+    } else if (typeof emailOrUser === "string") {
       setVerifyEmail(emailOrUser);
       handleNavigate("verify-email");
     } else {
-      // Auto-verified (no email service) — go directly to dashboard
       handleLoginSuccess(emailOrUser);
     }
   };
 
   const handleVerified = () => {
-    // After email verification, fetch updated session
     fetch("/api/auth/me", { credentials: "include" })
       .then((r) => r.json())
       .then((user) => {
@@ -320,6 +297,13 @@ function AppInner() {
           />
           {GlobalErrorBanner}
         </>
+      );
+    case "pending":
+      return (
+        <PendingView
+          onNavigate={handleNavigate}
+          email={pendingEmail}
+        />
       );
     case "verify-email":
       return (

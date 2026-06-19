@@ -1,9 +1,9 @@
 import { Router, type IRouter, type Request, type Response } from "express";
 import bcrypt from "bcryptjs";
 import { db } from "@workspace/db";
-import { usersTable } from "@workspace/db/schema";
-import { notificationsTable } from "@workspace/db/schema";
+import { usersTable, kycDocumentsTable, notificationsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
+import { sendEmail } from "../lib/mailer";
 
 const router: IRouter = Router();
 
@@ -33,6 +33,7 @@ export function serializeUser(user: typeof usersTable.$inferSelect) {
     liquidity: user.liquidity,
     isAdmin: user.isAdmin,
     emailVerified: user.emailVerified,
+    adminVerified: user.adminVerified,
     avatarUrl: user.avatarUrl,
     bankName: user.bankName,
     bankAccountNumber: user.bankAccountNumber,
@@ -50,8 +51,67 @@ export function tierFromWealth(wealth: number): string {
   return "Bronze Ore";
 }
 
+function pendingAccountEmailHtml(name: string): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/></head>
+<body style="margin:0;padding:0;background:#0d1419;font-family:Georgia,serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+    <tr><td align="center">
+      <table width="480" cellpadding="0" cellspacing="0" style="background:#131d26;border:1px solid #1e2d3d;border-radius:8px;overflow:hidden;">
+        <tr><td style="height:3px;background:#f2ca50;"></td></tr>
+        <tr><td style="padding:32px 40px;">
+          <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#e8dcc8;letter-spacing:2px;text-transform:uppercase;">Beta Capital Investment</p>
+          <h1 style="margin:0 0 16px;font-size:28px;color:#e8dcc8;">Account Under Review</h1>
+          <p style="color:#8a9ab5;font-family:sans-serif;font-size:14px;line-height:1.6;">Hi ${name},</p>
+          <p style="color:#8a9ab5;font-family:sans-serif;font-size:14px;line-height:1.6;">Thank you for registering with Beta Capital Investment. Your account and KYC documents are currently under review by our compliance team.</p>
+          <div style="margin:24px 0;background:#0d1419;border:1px solid #1e2d3d;border-radius:6px;padding:20px;">
+            <p style="color:#f2ca50;font-family:sans-serif;font-size:13px;font-weight:700;margin:0 0 8px;">What happens next?</p>
+            <ul style="color:#8a9ab5;font-family:sans-serif;font-size:13px;line-height:1.8;margin:0;padding-left:20px;">
+              <li>Our team reviews your submitted documents</li>
+              <li>Verification typically takes 1–3 business days</li>
+              <li>You will receive an email once your account is approved</li>
+            </ul>
+          </div>
+          <p style="color:#4a5a6b;font-family:sans-serif;font-size:11px;margin-top:24px;">Questions? Contact us at support@betacapitalinvestment.com</p>
+        </td></tr>
+        <tr><td style="padding:16px 40px;border-top:1px solid #1e2d3d;">
+          <p style="margin:0;color:#4a5a6b;font-family:sans-serif;font-size:11px;">&copy; ${new Date().getFullYear()} Beta Capital Investment. All rights reserved.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function accountApprovedEmailHtml(name: string): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/></head>
+<body style="margin:0;padding:0;background:#0d1419;font-family:Georgia,serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+    <tr><td align="center">
+      <table width="480" cellpadding="0" cellspacing="0" style="background:#131d26;border:1px solid #1e2d3d;border-radius:8px;overflow:hidden;">
+        <tr><td style="height:3px;background:#22c55e;"></td></tr>
+        <tr><td style="padding:32px 40px;">
+          <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#e8dcc8;letter-spacing:2px;text-transform:uppercase;">Beta Capital Investment</p>
+          <h1 style="margin:0 0 16px;font-size:28px;color:#e8dcc8;">Account Approved ✓</h1>
+          <p style="color:#8a9ab5;font-family:sans-serif;font-size:14px;line-height:1.6;">Hi ${name},</p>
+          <p style="color:#8a9ab5;font-family:sans-serif;font-size:14px;line-height:1.6;">Great news! Your Beta Capital Investment account has been verified and approved. You can now sign in and start investing.</p>
+          <p style="color:#4a5a6b;font-family:sans-serif;font-size:11px;margin-top:24px;">Visit our platform to get started.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+export { accountApprovedEmailHtml };
+
 router.post("/auth/signup", async (req: Request, res: Response) => {
-  const { email, password, fullName } = req.body;
+  const { email, password, fullName, phoneNumber, kycDocBase64, kycDocName, kycDocType } = req.body;
   if (!email || !password || !fullName) {
     res.status(400).json({ message: "All fields required" });
     return;
@@ -70,17 +130,16 @@ router.post("/auth/signup", async (req: Request, res: Response) => {
   const passwordHash = await bcrypt.hash(password, 10);
   const admin = isAdminEmail(email);
 
-  // Auto-verify email when no email service is configured (Resend API key missing)
-  const autoVerify = !process.env.RESEND_API_KEY || admin;
-
   const [user] = await db
     .insert(usersTable)
     .values({
       email: email.toLowerCase(),
       fullName,
       passwordHash,
+      phoneNumber: phoneNumber ?? null,
       isAdmin: admin,
-      emailVerified: autoVerify,
+      emailVerified: admin,
+      adminVerified: admin,
       tier: "Bronze Ore",
       theme: "sovereign",
       biometricEnabled: false,
@@ -88,19 +147,48 @@ router.post("/auth/signup", async (req: Request, res: Response) => {
     })
     .returning();
 
+  // Store KYC document if provided
+  if (kycDocBase64 && kycDocName && kycDocType && !admin) {
+    await db.insert(kycDocumentsTable).values({
+      userId: user.id,
+      docType: kycDocType,
+      fileDataBase64: kycDocBase64,
+      fileName: kycDocName,
+      mimeType: kycDocName.endsWith(".pdf") ? "application/pdf" : "image/jpeg",
+      status: "pending",
+    });
+  }
+
   const notifId = `notif_${Date.now()}_${Math.random().toString(36).slice(2)}`;
   await db.insert(notificationsTable).values({
     id: notifId,
     userId: user.id,
-    title: "Welcome to BetterCapitalInvestment",
-    message: "Your account has been created. Complete email verification then deposit funds to start building wealth.",
+    title: admin ? "Welcome to Beta Capital Investment" : "Account Under Review",
+    message: admin
+      ? "Your admin account is ready. Welcome to the platform."
+      : "Your registration is complete. Our team is reviewing your account and KYC documents. You will be notified once approved.",
     timestamp: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
     read: false,
-    type: "success",
+    type: "info",
   });
 
-  req.session.userId = user.id;
-  res.status(201).json(serializeUser(user));
+  // Send confirmation email
+  if (!admin) {
+    try {
+      await sendEmail(email, "Your Beta Capital Investment Account is Under Review", pendingAccountEmailHtml(fullName));
+    } catch (err) {
+      req.log.warn({ err }, "Failed to send pending account email");
+    }
+  }
+
+  if (admin) {
+    // Admin users are immediately verified and logged in
+    req.session.userId = user.id;
+    res.status(201).json(serializeUser(user));
+  } else {
+    // Regular users wait for admin verification — no session created
+    res.status(201).json({ pending: true, email: user.email });
+  }
 });
 
 router.post("/auth/login", async (req: Request, res: Response) => {
@@ -117,7 +205,7 @@ router.post("/auth/login", async (req: Request, res: Response) => {
   }
 
   if (!user.passwordHash) {
-    res.status(401).json({ message: "This account uses Google sign-in. Please sign in with Google." });
+    res.status(401).json({ message: "Please use email and password to sign in." });
     return;
   }
 
@@ -127,9 +215,15 @@ router.post("/auth/login", async (req: Request, res: Response) => {
     return;
   }
 
+  // Check admin verification for non-admin users
+  if (!user.isAdmin && !user.adminVerified) {
+    res.status(403).json({ message: "Your account is pending admin verification. Please wait for approval.", code: "ACCOUNT_PENDING" });
+    return;
+  }
+
   // Auto-promote admin emails
   if (isAdminEmail(email) && !user.isAdmin) {
-    await db.update(usersTable).set({ isAdmin: true }).where(eq(usersTable.id, user.id));
+    await db.update(usersTable).set({ isAdmin: true, adminVerified: true }).where(eq(usersTable.id, user.id));
     user.isAdmin = true;
   }
 

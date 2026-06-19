@@ -143,8 +143,8 @@ router.get("/admin/users", requireAdmin, async (_req: Request, res: Response) =>
   res.json(users.map((u) => ({
     id: u.id, email: u.email, fullName: u.fullName, tier: u.tier,
     isAdmin: u.isAdmin, emailVerified: u.emailVerified,
+    adminVerified: u.adminVerified, phoneNumber: u.phoneNumber,
     liquidity: u.liquidity, theme: u.theme, createdAt: u.createdAt,
-    googleId: !!u.googleId,
     bankName: u.bankName, bankAccountNumber: u.bankAccountNumber,
     bankAccountName: u.bankAccountName,
     cryptoWithdrawAddress: u.cryptoWithdrawAddress,
@@ -171,6 +171,24 @@ router.delete("/admin/users/:id", requireAdmin, async (req: Request, res: Respon
   const id = Number(req.params.id);
   await db.delete(usersTable).where(eq(usersTable.id, id));
   res.json({ message: "User deleted" });
+});
+
+router.post("/admin/users/:id/verify", requireAdmin, async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const [user] = await db.update(usersTable)
+    .set({ adminVerified: true })
+    .where(eq(usersTable.id, id))
+    .returning();
+  if (!user) { res.status(404).json({ message: "User not found" }); return; }
+  // Send approval email
+  try {
+    const { sendEmail } = await import("../lib/mailer");
+    const { accountApprovedEmailHtml } = await import("./auth");
+    await sendEmail(user.email, "Your Beta Capital Investment Account is Approved", accountApprovedEmailHtml(user.fullName));
+  } catch (err) {
+    req.log.warn({ err }, "Failed to send approval email");
+  }
+  res.json({ message: "User verified", userId: user.id });
 });
 
 // ─── INVESTMENTS ───────────────────────────────────────────────────────────────
