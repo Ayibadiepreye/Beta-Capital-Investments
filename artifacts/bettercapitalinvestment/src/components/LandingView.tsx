@@ -412,29 +412,7 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
           </div>
         </section>
 
-        {/* ── Payment Methods ── */}
-        <section ref={paymentRef} className={`py-16 px-6 md:px-16 bg-brand-surface/20 border-y border-brand-border ${paymentVisible ? '' : 'scroll-hidden'}`}>
-          <div className="max-w-5xl mx-auto">
-            <div className={`text-center mb-8 ${paymentVisible ? 'animate-fade-in-up' : ''}`}>
-              <span className="text-brand-gold text-xs tracking-widest font-bold block uppercase mb-2 font-sans">Trusted & Verified</span>
-              <h2 className="text-2xl md:text-3xl text-brand-text mb-3">Deposit & Withdrawal Methods</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { name: 'Paystack', desc: 'Card & bank transfer', icon: '💳' },
-                { name: 'Flutterwave', desc: 'Global payments', icon: '🌍' },
-                { name: 'Monnify', desc: 'NGN bank transfer', icon: '🏦' },
-                { name: 'Crypto', desc: 'BTC · ETH · USDT · SOL', icon: '₿' },
-              ].map((m, index) => (
-                <div key={m.name} className={`bg-brand-surface border border-brand-border rounded-lg p-4 text-center hover:border-brand-gold/40 transition-colors ${paymentVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: `${index * 100 + 200}ms` }}>
-                  <div className="text-2xl mb-2">{m.icon}</div>
-                  <div className="text-sm font-semibold text-brand-text mb-1">{m.name}</div>
-                  <div className="text-[11px] text-brand-muted font-sans">{m.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Payment Methods section removed as requested */}
 
         {/* ── FAQ ── */}
         <section ref={faqRef} className={`py-24 px-6 md:px-16 bg-brand-bg ${faqVisible ? '' : 'scroll-hidden'}`}>
