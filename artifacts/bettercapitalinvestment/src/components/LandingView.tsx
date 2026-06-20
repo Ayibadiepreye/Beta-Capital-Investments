@@ -445,7 +445,7 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
                     </div>
                   )}
                 </div>
-              )})}
+              ))}
             </div>
           </div>
         </section>
