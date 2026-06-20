@@ -393,3 +393,172 @@ input:-webkit-autofill:focus {
 .scroll-hidden {
   opacity: 0;
 }
+
+/* ── Ultra-Dramatic Off-Screen Scroll Animations ─────────────────────────────────────────────────── */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flipIn {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(90deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(0);
+  }
+}
+
+@keyframes zoomRotate {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(45deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes elasticIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(180deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes bounceInEnhanced {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(100px);
+  }
+  50% {
+    transform: scale(1.08) translateY(-20px);
+  }
+  70% {
+    transform: scale(0.95) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes sparkleHover {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(242, 202, 80, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(242, 202, 80, 0.8));
+  }
+}
+
+@keyframes fadeOutClick {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes fadeOutUpClick {
+  to {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+}
+
+/* Animation classes with 1.2-1.5s duration for ultra visibility */
+.animate-slide-in-left {
+  animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-top {
+  animation: slideInTop 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-bottom {
+  animation: slideInBottom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-flip-in {
+  animation: flipIn 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-zoom-rotate {
+  animation: zoomRotate 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-elastic-in {
+  animation: elasticIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-bounce-in-enhanced {
+  animation: bounceInEnhanced 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sparkle effect on hover */
+.sparkle-on-hover:hover {
+  animation: sparkleHover 1.5s ease-in-out infinite;
+}
+
+/* Fade away on click */
+.fade-out-on-click:active {
+  animation: fadeOutClick 0.3s ease forwards;
+}
+
+.fade-out-up-on-click:active {
+  animation: fadeOutUpClick 0.3s ease forwards;
+}
