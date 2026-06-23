@@ -42,8 +42,10 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.join(import.meta.dirname, "..", "..", "public"),
-    emptyOutDir: false,
+    outDir: process.env.VERCEL 
+      ? "/vercel/path0/public"
+      : path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true,
   },
   server: {
     port,
