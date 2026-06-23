@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+// @ts-ignore
 import { app } from '../artifacts/api-server/dist/index.mjs';
 
 // Vercel serverless function handler
