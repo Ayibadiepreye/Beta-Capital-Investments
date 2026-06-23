@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "pnpm --filter @workspace/BetterCapitalInvestment run build && cd /vercel/path0 && node copy-build.js && pnpm --filter @workspace/api-server run build",
-  "outputDirectory": "public",
+  "buildCommand": "pnpm run build:vercel",
+  "outputDirectory": "artifacts/bettercapitalinvestment/dist/public",
   "framework": null,
   "installCommand": "pnpm install --no-frozen-lockfile",
   "devCommand": null,
