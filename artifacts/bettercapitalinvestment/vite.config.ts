@@ -42,8 +42,8 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(process.cwd(), "public"),
-    emptyOutDir: true,
+    outDir: path.join(import.meta.dirname, "..", "..", "public"),
+    emptyOutDir: false,
   },
   server: {
     port,
