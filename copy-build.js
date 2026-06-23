@@ -1,10 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-const sourceDir = path.join(__dirname, 'artifacts/bettercapitalinvestment/dist/public');
-const targetDir = path.join(__dirname, 'public');
+// Use absolute paths from repository root
+const sourceDir = '/vercel/path0/artifacts/bettercapitalinvestment/dist/public';
+const targetDir = '/vercel/path0/public';
 
 function copyDir(src, dest) {
+  // Check if source exists
+  if (!fs.existsSync(src)) {
+    console.error('Source directory does not exist:', src);
+    process.exit(1);
+  }
+
   // Create destination directory
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest, { recursive: true });
