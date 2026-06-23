@@ -83,3 +83,8 @@ curl -i -X POST https://sandbox.monnify.com/api/v1/merchant/transactions/init-tr
     "paymentMethods": ["CARD"]
   }'
 
+
+
+# Vercel
+.vercel
+.vercel.json

@@ -1,0 +1,51 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+.next
+.turbo
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Netlify (not needed for Vercel)
+netlify
+.netlify
+netlify.toml
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Misc
+.replit
+.replitignore
+Serverless-Finance
+
+# Documentation
+*.md
+!README.md
+
+# Agents
+.agents
+.kiro
+.continue
