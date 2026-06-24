@@ -460,7 +460,7 @@ export default function DashboardView({
         {/* Feedback toast */}
         {feedbackMsg && (
           <div
-            className={`fixed top-4 right-4 z-50 max-w-sm px-4 py-3 rounded border shadow-lg text-xs font-sans flex items-center gap-3 fade-in ${feedbackMsg.success ? "bg-brand-surface border-brand-gold/30 text-brand-text" : "bg-red-950/80 border-red-500/30 text-red-300"}`}
+            className={`fixed top-4 right-4 z-[100] max-w-sm px-4 py-3 rounded border shadow-lg text-xs font-sans flex items-center gap-3 fade-in ${feedbackMsg.success ? "bg-brand-surface border-brand-gold/30 text-brand-text" : "bg-red-950/80 border-red-500/30 text-red-300"}`}
           >
             {feedbackMsg.success ? (
               <CheckCircle2 className="w-4 h-4 text-brand-gold shrink-0" />

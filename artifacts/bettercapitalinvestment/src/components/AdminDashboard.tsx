@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import {
   Users, TrendingUp, Wallet, Activity, Settings, Bell, CreditCard,
   BarChart3, Loader2, LogOut, RefreshCw, Edit3, Check, X, ChevronDown,
@@ -303,13 +303,13 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
       <main className="md:ml-60 flex-1 pt-14 md:pt-0 min-h-screen">
         {/* Feedback */}
         {feedback && (
-          <div className="fixed top-4 right-4 z-50 bg-brand-surface border border-brand-gold/30 rounded shadow-xl px-4 py-3 text-xs font-sans text-brand-text flex items-center gap-2 max-w-xs">
+          <div className="fixed top-4 right-4 z-[100] bg-brand-surface border border-brand-gold/30 rounded shadow-xl px-4 py-3 text-xs font-sans text-brand-text flex items-center gap-2 max-w-xs">
             <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
             {feedback}
           </div>
         )}
         {error && (
-          <div className="fixed top-4 right-4 z-50 bg-red-950/80 border border-red-500/30 rounded shadow-xl px-4 py-3 text-xs font-sans text-red-300 flex items-center gap-2 max-w-xs">
+          <div className="fixed top-4 right-4 z-[100] bg-red-950/80 border border-red-500/30 rounded shadow-xl px-4 py-3 text-xs font-sans text-red-300 flex items-center gap-2 max-w-xs">
             <AlertTriangle className="w-4 h-4 shrink-0" />
             {error}
             <button onClick={() => setError('')} className="ml-auto"><X className="w-3.5 h-3.5" /></button>
