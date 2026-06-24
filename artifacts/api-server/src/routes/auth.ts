@@ -19,6 +19,7 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "bonnieprincewill6@gmail.com,s
   .filter(Boolean);
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const EMAIL_FROM = process.env.EMAIL_FROM ?? "BetterCapitalInvestment <no-reply@betacapitalinvestments.com>";
 
 export function isAdminEmail(email: string): boolean {
   return ADMIN_EMAILS.includes(email.toLowerCase());
@@ -58,7 +59,7 @@ async function sendAccountPendingEmail(user: typeof usersTable.$inferSelect) {
   if (!resend) return;
   try {
     await resend.emails.send({
-      from: "BetterCapitalInvestment <no-reply@bettercapitalinvestment.com>",
+      from: EMAIL_FROM,
       to: user.email,
       subject: "Welcome to BetterCapitalInvestment - Your Account is Under Review",
       html: `
@@ -99,7 +100,7 @@ export async function sendAccountApprovedEmail(user: typeof usersTable.$inferSel
   if (!resend) return;
   try {
     await resend.emails.send({
-      from: "BetterCapitalInvestment <no-reply@bettercapitalinvestment.com>",
+      from: EMAIL_FROM,
       to: user.email,
       subject: "Your BetterCapitalInvestment Account Has Been Approved!",
       html: `
