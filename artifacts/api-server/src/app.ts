@@ -46,16 +46,26 @@ const allowedOrigins = process.env.FRONTEND_URL
 
 app.use(
   cors({
-    origin:
-      isProd && allowedOrigins.length > 0
-        ? (origin, cb) => {
-            if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
-              cb(null, true);
-            } else {
-              cb(new Error("Not allowed by CORS"));
-            }
-          }
-        : true,
+    origin: (origin, cb) => {
+      if (!origin) {
+        cb(null, true);
+        return;
+      }
+      const host = origin.toLowerCase();
+      const isAllowed =
+        host.includes("betacapitalinvestments.com") ||
+        host.includes("bettercapitalinvestments") ||
+        host.includes(".vercel.app") ||
+        host.includes("localhost") ||
+        host.includes("127.0.0.1") ||
+        allowedOrigins.some((o) => host.startsWith(o.toLowerCase()));
+
+      if (isAllowed) {
+        cb(null, true);
+      } else {
+        cb(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
