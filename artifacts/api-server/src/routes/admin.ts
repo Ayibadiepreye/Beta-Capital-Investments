@@ -38,17 +38,17 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   crypto_eth_address: "",
   crypto_sol_address: "",
   // Tier daily ROI rates (%)
-  tier_roi_bronze: "0.25",
-  tier_roi_silver: "0.35",
-  tier_roi_gold: "0.45",
-  tier_roi_platinum: "0.55",
-  tier_roi_diamond: "0.70",
+  tier_roi_bronze: "16.6667",
+  tier_roi_silver: "23.3333",
+  tier_roi_gold: "30.0000",
+  tier_roi_platinum: "36.6667",
+  tier_roi_diamond: "46.6667",
   // Tier minimum investment amounts ($)
   tier_min_bronze: "5000",
   tier_min_silver: "10000",
-  tier_min_gold: "50000",
+  tier_min_gold: "25000",
   tier_min_platinum: "250000",
-  tier_min_diamond: "1000000",
+  tier_min_diamond: "100000",
   // Tier descriptions (configurable copy)
   tier_desc_bronze: "Entry-level tier for establishing a strong, diversified interest stream with steady growth.",
   tier_desc_silver: "Professional tier with enhanced daily yields and priority allocation for serious portfolios.",
@@ -68,10 +68,10 @@ const DEFAULT_SETTINGS: Record<string, string> = {
 // Keys that trigger broadcast notifications on change
 const NOTIFY_ON_CHANGE: Record<string, (oldVal: string, newVal: string) => { title: string; message: string } | null> = {
   tier_roi_bronze: (_o, n) => ({ title: "Classic Tier ROI Updated", message: `The daily ROI for Classic tier has been updated to ${n}% per day.` }),
-  tier_roi_silver: (_o, n) => ({ title: "Pro Tier ROI Updated", message: `The daily ROI for Pro tier has been updated to ${n}% per day.` }),
-  tier_roi_gold: (_o, n) => ({ title: "VIP Tier ROI Updated", message: `The daily ROI for VIP tier has been updated to ${n}% per day.` }),
-  tier_roi_platinum: (_o, n) => ({ title: "Tier ROI Updated", message: `The daily ROI for tier Platinum has been updated to ${n}% per day.` }),
-  tier_roi_diamond: (_o, n) => ({ title: "Tier ROI Updated", message: `The daily ROI for tier Diamond has been updated to ${n}% per day.` }),
+  tier_roi_silver: (_o, n) => ({ title: "Silver Tier (Legacy) ROI Updated", message: `The daily ROI for Silver tier has been updated to ${n}% per day.` }),
+  tier_roi_gold: (_o, n) => ({ title: "Pro Tier ROI Updated", message: `The daily ROI for Pro tier has been updated to ${n}% per day.` }),
+  tier_roi_platinum: (_o, n) => ({ title: "Platinum Tier (Legacy) ROI Updated", message: `The daily ROI for Platinum tier has been updated to ${n}% per day.` }),
+  tier_roi_diamond: (_o, n) => ({ title: "VIP Tier ROI Updated", message: `The daily ROI for VIP tier has been updated to ${n}% per day.` }),
   early_exit_penalty: (_o, n) => {
     const pct = Math.round(parseFloat(n) * 100);
     return { title: "Early Exit Policy Update", message: `The early withdrawal penalty has been updated to ${pct}%. Please review your investment terms.` };

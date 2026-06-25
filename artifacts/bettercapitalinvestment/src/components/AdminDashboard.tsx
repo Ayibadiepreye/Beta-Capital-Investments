@@ -949,10 +949,10 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
                       { key: 'tier_roi_bronze', label: 'Classic' },
-                      { key: 'tier_roi_silver', label: 'Pro' },
-                      { key: 'tier_roi_gold', label: 'VIP' },
-                      { key: 'tier_roi_platinum', label: 'Platinum' },
-                      { key: 'tier_roi_diamond', label: 'Diamond' },
+                      { key: 'tier_roi_silver', label: 'Silver (Legacy)' },
+                      { key: 'tier_roi_gold', label: 'Pro' },
+                      { key: 'tier_roi_platinum', label: 'Platinum (Legacy)' },
+                      { key: 'tier_roi_diamond', label: 'VIP' },
                     ].map(f => (
                       <div key={f.key}>
                         <label className="block text-[10px] font-sans text-brand-muted uppercase tracking-wider mb-1">{f.label}</label>
@@ -972,10 +972,10 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
                       { key: 'tier_min_bronze', label: 'Classic' },
-                      { key: 'tier_min_silver', label: 'Pro' },
-                      { key: 'tier_min_gold', label: 'VIP' },
-                      { key: 'tier_min_platinum', label: 'Platinum' },
-                      { key: 'tier_min_diamond', label: 'Diamond' },
+                      { key: 'tier_min_silver', label: 'Silver (Legacy)' },
+                      { key: 'tier_min_gold', label: 'Pro' },
+                      { key: 'tier_min_platinum', label: 'Platinum (Legacy)' },
+                      { key: 'tier_min_diamond', label: 'VIP' },
                     ].map(f => (
                       <div key={f.key}>
                         <label className="block text-[10px] font-sans text-brand-muted uppercase tracking-wider mb-1">{f.label}</label>

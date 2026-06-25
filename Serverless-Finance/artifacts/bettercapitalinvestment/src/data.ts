@@ -2,39 +2,25 @@ import { InvestmentSector, InvestmentTier, Transaction } from './types';
 
 export const INVESTMENT_TIERS: InvestmentTier[] = [
   {
-    name: 'Bronze Ore',
+    name: 'Classic',
     minAmount: 5000,
-    maxAmount: 9999,
-    dailyROI: 0.0025,
-    description: 'Bronze level entry ore for establishing a strong, diversified interest stream.'
+    maxAmount: 24999,
+    dailyROI: 0.166667,
+    description: 'Entry-level tier for establishing a strong, diversified interest stream with steady growth.'
   },
   {
-    name: 'Silver Ore',
-    minAmount: 10000,
-    maxAmount: 49999,
-    dailyROI: 0.0035,
-    description: 'Silver level growth ore with enhanced daily yields for serious portfolios.'
+    name: 'Pro',
+    minAmount: 25000,
+    maxAmount: 99999,
+    dailyROI: 0.300000,
+    description: 'Professional tier with enhanced daily yields and priority allocation for serious portfolios.'
   },
   {
-    name: 'Gold Ore',
-    minAmount: 50000,
-    maxAmount: 249999,
-    dailyROI: 0.0045,
-    description: 'Our standard gold asset standard for securing prime real estate and premium commodities.'
-  },
-  {
-    name: 'Platinum Ore',
-    minAmount: 250000,
-    maxAmount: 999999,
-    dailyROI: 0.0055,
-    description: 'Elite platinum tier backing large-scale global initiatives and customized liquidity accounts.'
-  },
-  {
-    name: 'Diamond Ore',
-    minAmount: 1000000,
+    name: 'VIP',
+    minAmount: 100000,
     maxAmount: 100000000,
-    dailyROI: 0.0070,
-    description: 'Supreme-tier backing designated for absolute sovereign wealth and maximal return flows.'
+    dailyROI: 0.466667,
+    description: 'Elite tier with maximum returns, dedicated support, and access to exclusive investment opportunities.'
   }
 ];
 
@@ -59,11 +45,11 @@ export const INVESTMENT_PLANS: InvestmentPlan[] = [
     badge: 'Automated',
     minAmount: 5000,
     maxAmountLabel: '$25,000',
-    rateLabel: 'Daily Compounded',
+    rateLabel: '16.67% Daily ROI',
     rateDetail: '30-Day Term',
     features: [
       'Min. $5,000 — Max. $25,000',
-      'Daily compounded ROI for 30 days',
+      '16.67% daily ROI for 30 days',
       'Automated portfolio management',
       'Real-time performance dashboard',
       'Email & push notifications',
@@ -79,11 +65,11 @@ export const INVESTMENT_PLANS: InvestmentPlan[] = [
     badge: 'Most Popular',
     minAmount: 25000,
     maxAmountLabel: '$50,000',
-    rateLabel: '5% Interest Rate',
-    rateDetail: '30-Day Term',
+    rateLabel: '30.00% Daily ROI',
+    rateDetail: 'Fixed Returns',
     features: [
       'Min. $25,000 — Max. $50,000',
-      '5% fixed interest rate over 30 days',
+      '30.00% daily interest rate',
       'Priority fund allocation',
       'Dedicated account manager',
       'Advanced analytics access',
@@ -99,11 +85,11 @@ export const INVESTMENT_PLANS: InvestmentPlan[] = [
     badge: 'Elite',
     minAmount: 50000,
     maxAmountLabel: '1 BTC & above',
-    rateLabel: '8% Interest Rate',
-    rateDetail: '30-Day Term',
+    rateLabel: '46.67% Daily ROI',
+    rateDetail: 'Premium Returns',
     features: [
       'Min. $50,000 — Max. 1 BTC+',
-      '8% premium interest rate over 30 days',
+      '46.67% premium daily interest rate',
       'Gold & crypto diversification',
       'Private wealth concierge',
       'White-glove onboarding',
@@ -122,7 +108,7 @@ export const INVESTMENT_SECTORS: InvestmentSector[] = [
     title: 'Gold Investment',
     description: 'Physical gold, ETFs, and futures — hedge against inflation with the world\'s oldest store of value.',
     imageUrl: 'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&q=80',
-    defaultDailyROI: 0.0020
+    defaultDailyROI: 0.133333
   },
   {
     id: 'crypto',
@@ -130,7 +116,7 @@ export const INVESTMENT_SECTORS: InvestmentSector[] = [
     title: 'Crypto',
     description: 'Algorithmic trading and strategic long-term positions in top-tier protocols.',
     imageUrl: 'https://images.unsplash.com/photo-1639762681057-408e52192e55?w=800&q=80',
-    defaultDailyROI: 0.0035
+    defaultDailyROI: 0.233333
   },
   {
     id: 'real-estate',
@@ -138,7 +124,7 @@ export const INVESTMENT_SECTORS: InvestmentSector[] = [
     title: 'Real Estate',
     description: 'Commercial and residential acquisition in high-appreciation urban centers.',
     imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
-    defaultDailyROI: 0.0025,
+    defaultDailyROI: 0.166667,
     comingSoon: true
   },
   {
@@ -147,7 +133,7 @@ export const INVESTMENT_SECTORS: InvestmentSector[] = [
     title: 'Agriculture',
     description: 'Sustainable vertical farming and high-yield technological agricultural initiatives.',
     imageUrl: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80',
-    defaultDailyROI: 0.0030,
+    defaultDailyROI: 0.200000,
     comingSoon: true
   }
 ];

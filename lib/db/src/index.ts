@@ -46,6 +46,19 @@ const migrationSql = `
     reviewed_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT NOW()
   );
+
+  INSERT INTO platform_settings (key, value) VALUES
+    ('tier_roi_bronze', '16.6667'),
+    ('tier_roi_silver', '23.3333'),
+    ('tier_roi_gold', '30.0000'),
+    ('tier_roi_platinum', '36.6667'),
+    ('tier_roi_diamond', '46.6667'),
+    ('tier_min_bronze', '5000'),
+    ('tier_min_silver', '10000'),
+    ('tier_min_gold', '25000'),
+    ('tier_min_platinum', '250000'),
+    ('tier_min_diamond', '100000')
+  ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
 `;
 
 pool.query(migrationSql)

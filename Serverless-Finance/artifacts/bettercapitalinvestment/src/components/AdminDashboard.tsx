@@ -791,11 +791,11 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   <p className="text-[10px] text-brand-muted font-sans mb-4">Short description shown under each tier on the landing page and in the dashboard.</p>
                   <div className="space-y-3">
                     {[
-                      { key: 'tier_desc_bronze', label: 'Bronze Ore' },
-                      { key: 'tier_desc_silver', label: 'Silver Ore' },
-                      { key: 'tier_desc_gold', label: 'Gold Ore' },
-                      { key: 'tier_desc_platinum', label: 'Platinum Ore' },
-                      { key: 'tier_desc_diamond', label: 'Diamond Ore' },
+                      { key: 'tier_desc_bronze', label: 'Classic' },
+                      { key: 'tier_desc_silver', label: 'Silver (Legacy)' },
+                      { key: 'tier_desc_gold', label: 'Pro' },
+                      { key: 'tier_desc_platinum', label: 'Platinum (Legacy)' },
+                      { key: 'tier_desc_diamond', label: 'VIP' },
                     ].map(f => (
                       <div key={f.key} className="grid grid-cols-4 gap-3 items-center">
                         <label className="text-[10px] font-sans text-brand-muted uppercase tracking-wider col-span-1">{f.label}</label>
@@ -863,11 +863,11 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   <p className="text-[10px] text-brand-muted font-sans mb-4">Set the <strong>daily</strong> return on investment for each tier (applied every day over a 30-day term). Changing these will notify all users. Enter as a percentage (e.g. 0.25 for 0.25% per day).</p>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
-                      { key: 'tier_roi_bronze', label: 'Bronze Ore' },
-                      { key: 'tier_roi_silver', label: 'Silver Ore' },
-                      { key: 'tier_roi_gold', label: 'Gold Ore' },
-                      { key: 'tier_roi_platinum', label: 'Platinum Ore' },
-                      { key: 'tier_roi_diamond', label: 'Diamond Ore' },
+                      { key: 'tier_roi_bronze', label: 'Classic' },
+                      { key: 'tier_roi_silver', label: 'Silver (Legacy)' },
+                      { key: 'tier_roi_gold', label: 'Pro' },
+                      { key: 'tier_roi_platinum', label: 'Platinum (Legacy)' },
+                      { key: 'tier_roi_diamond', label: 'VIP' },
                     ].map(f => (
                       <div key={f.key}>
                         <label className="block text-[10px] font-sans text-brand-muted uppercase tracking-wider mb-1">{f.label}</label>
@@ -886,11 +886,11 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   <p className="text-[10px] text-brand-muted font-sans mb-4">Set the minimum investment amount required to qualify for each tier.</p>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
-                      { key: 'tier_min_bronze', label: 'Bronze Ore' },
-                      { key: 'tier_min_silver', label: 'Silver Ore' },
-                      { key: 'tier_min_gold', label: 'Gold Ore' },
-                      { key: 'tier_min_platinum', label: 'Platinum Ore' },
-                      { key: 'tier_min_diamond', label: 'Diamond Ore' },
+                      { key: 'tier_min_bronze', label: 'Classic' },
+                      { key: 'tier_min_silver', label: 'Silver (Legacy)' },
+                      { key: 'tier_min_gold', label: 'Pro' },
+                      { key: 'tier_min_platinum', label: 'Platinum (Legacy)' },
+                      { key: 'tier_min_diamond', label: 'VIP' },
                     ].map(f => (
                       <div key={f.key}>
                         <label className="block text-[10px] font-sans text-brand-muted uppercase tracking-wider mb-1">{f.label}</label>

@@ -28,17 +28,17 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   withdraw_bank_enabled: "true",
   withdraw_crypto_enabled: "true",
   // Tier daily ROI rates (%)
-  tier_roi_bronze: "0.25",
-  tier_roi_silver: "0.35",
-  tier_roi_gold: "0.45",
-  tier_roi_platinum: "0.55",
-  tier_roi_diamond: "0.70",
+  tier_roi_bronze: "16.6667",
+  tier_roi_silver: "23.3333",
+  tier_roi_gold: "30.0000",
+  tier_roi_platinum: "36.6667",
+  tier_roi_diamond: "46.6667",
   // Tier minimum investment amounts ($)
   tier_min_bronze: "5000",
   tier_min_silver: "10000",
-  tier_min_gold: "50000",
+  tier_min_gold: "25000",
   tier_min_platinum: "250000",
-  tier_min_diamond: "1000000",
+  tier_min_diamond: "100000",
   // Tier descriptions (configurable copy)
   tier_desc_bronze: "Bronze level entry ore for establishing a strong, diversified interest stream.",
   tier_desc_silver: "Silver level growth ore with enhanced daily yields for serious portfolios.",
@@ -57,11 +57,11 @@ const DEFAULT_SETTINGS: Record<string, string> = {
 
 // Keys that trigger broadcast notifications on change
 const NOTIFY_ON_CHANGE: Record<string, (oldVal: string, newVal: string) => { title: string; message: string } | null> = {
-  tier_roi_bronze: (_o, n) => ({ title: "Bronze Ore ROI Updated", message: `The daily ROI for Bronze Ore tier has been updated to ${n}% per day.` }),
-  tier_roi_silver: (_o, n) => ({ title: "Silver Ore ROI Updated", message: `The daily ROI for Silver Ore tier has been updated to ${n}% per day.` }),
-  tier_roi_gold: (_o, n) => ({ title: "Gold Ore ROI Updated", message: `The daily ROI for Gold Ore tier has been updated to ${n}% per day.` }),
-  tier_roi_platinum: (_o, n) => ({ title: "Platinum Ore ROI Updated", message: `The daily ROI for Platinum Ore tier has been updated to ${n}% per day.` }),
-  tier_roi_diamond: (_o, n) => ({ title: "Diamond Ore ROI Updated", message: `The daily ROI for Diamond Ore tier has been updated to ${n}% per day.` }),
+  tier_roi_bronze: (_o, n) => ({ title: "Classic Tier ROI Updated", message: `The daily ROI for Classic tier has been updated to ${n}% per day.` }),
+  tier_roi_silver: (_o, n) => ({ title: "Silver Tier (Legacy) ROI Updated", message: `The daily ROI for Silver tier has been updated to ${n}% per day.` }),
+  tier_roi_gold: (_o, n) => ({ title: "Pro Tier ROI Updated", message: `The daily ROI for Pro tier has been updated to ${n}% per day.` }),
+  tier_roi_platinum: (_o, n) => ({ title: "Platinum Tier (Legacy) ROI Updated", message: `The daily ROI for Platinum tier has been updated to ${n}% per day.` }),
+  tier_roi_diamond: (_o, n) => ({ title: "VIP Tier ROI Updated", message: `The daily ROI for VIP tier has been updated to ${n}% per day.` }),
 };
 
 // ─── PUBLIC SETTINGS (no auth) ─────────────────────────────────────────────────
