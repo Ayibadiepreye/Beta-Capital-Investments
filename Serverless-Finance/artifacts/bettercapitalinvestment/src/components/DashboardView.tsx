@@ -741,19 +741,10 @@ export default function DashboardView({
                             {sector.title}
                           </div>
                         </div>
-                        {sector.comingSoon ? (
+                        {sector.comingSoon && (
                           <span className="flex items-center gap-1 text-[10px] font-sans font-bold text-brand-muted border border-brand-border px-2 py-1 rounded bg-brand-bg/70">
                             <Clock className="w-3 h-3" /> Coming Soon
                           </span>
-                        ) : (
-                          <div className="text-right">
-                            <div className="text-[10px] text-brand-muted font-sans">
-                              Daily ROI
-                            </div>
-                            <div className="text-sm font-bold text-brand-gold">
-                              {(sector.defaultDailyROI * 100).toFixed(2)}%
-                            </div>
-                          </div>
                         )}
                       </div>
                     </div>
@@ -1574,9 +1565,6 @@ export default function DashboardView({
                           className={`text-left p-3 rounded border text-xs transition-all ${activePledgeSector?.id === s.id ? "border-brand-gold bg-brand-gold/10 text-brand-gold" : "border-brand-border text-brand-muted hover:border-brand-gold/40 hover:text-brand-text"}`}
                         >
                           <div className="font-bold">{s.title}</div>
-                          <div className="font-sans opacity-70">
-                            {(s.defaultDailyROI * 100).toFixed(2)}%/day
-                          </div>
                         </button>
                       ),
                     )}

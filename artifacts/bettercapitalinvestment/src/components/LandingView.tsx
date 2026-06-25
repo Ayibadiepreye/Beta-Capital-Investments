@@ -421,13 +421,9 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
                   <div className="absolute bottom-0 left-0 right-0 p-5">
                     <div className="text-[9px] text-brand-gold font-sans uppercase tracking-widest font-bold mb-0.5">{sector.category}</div>
                     <div className="text-base font-semibold text-brand-text mb-2">{sector.title}</div>
-                    {sector.comingSoon ? (
+                    {sector.comingSoon && (
                       <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-bold text-brand-muted border border-brand-border px-2.5 py-1 rounded bg-brand-bg/60">
                         <Clock className="w-3 h-3" /> Coming Soon
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-bold text-brand-gold border border-brand-gold/30 px-2.5 py-1 rounded bg-brand-gold/10">
-                        <Zap className="w-3 h-3" /> {(sector.defaultDailyROI * 100).toFixed(2)}% Daily ROI
                       </span>
                     )}
                   </div>
@@ -568,10 +564,7 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
               <div className="text-[10px] text-brand-gold font-sans uppercase tracking-widest font-bold mb-1">{selectedSector.category}</div>
               <h3 className="text-xl font-bold text-brand-text mb-3">{selectedSector.title}</h3>
               <p className="text-brand-muted text-sm font-sans leading-relaxed mb-5">{selectedSector.description}</p>
-              <div className="flex items-center justify-between bg-brand-bg border border-brand-border rounded-lg p-3 mb-5">
-                <span className="text-xs text-brand-muted font-sans">Daily ROI</span>
-                <span className="text-lg font-bold text-brand-gold">{(selectedSector.defaultDailyROI * 100).toFixed(2)}%</span>
-              </div>
+
               <button
                 onClick={() => { setSelectedSector(null); session.isLoggedIn ? onNavigate('dashboard') : onNavigate('signup'); }}
                 className="w-full bg-brand-gold text-brand-bg font-sans font-bold text-xs py-3.5 rounded uppercase tracking-widest hover:brightness-110 transition-all flex items-center justify-center gap-2"
