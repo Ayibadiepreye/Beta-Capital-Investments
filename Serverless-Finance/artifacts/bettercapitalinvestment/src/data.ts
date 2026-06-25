@@ -124,8 +124,7 @@ export const INVESTMENT_SECTORS: InvestmentSector[] = [
     title: 'Real Estate',
     description: 'Commercial and residential acquisition in high-appreciation urban centers.',
     imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
-    defaultDailyROI: 0.166667,
-    comingSoon: true
+    defaultDailyROI: 0.166667
   },
   {
     id: 'agriculture',
