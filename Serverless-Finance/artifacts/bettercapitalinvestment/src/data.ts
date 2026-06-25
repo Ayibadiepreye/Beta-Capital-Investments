@@ -172,11 +172,11 @@ export const FAQ_ITEMS = [
 
   {
     q: 'What payment methods are accepted?',
-    a: 'We accept cryptocurrency deposits including BTC, USDT-TRC20, and USDT-ERC20, and bank transfers for withdrawals. All payment methods are listed in your deposit portal.'
+    a: 'We accept bank transfers (Monnify) and cryptocurrency deposits including BTC, USDT-TRC20, and USDT-ERC20. All payment methods are listed in your deposit portal.'
   },
   {
     q: 'How is BetterCapitalInvestment regulated?',
-    a: 'BetterCapitalInvestment is certified and registered as a financial services provider. Our operations comply with international AML and KYC requirements. A copy of our certification is available upon request from compliance@BetterCapitalInvestment.com.'
+    a: 'BetterCapitalInvestment is certified and registered as a financial services provider in Switzerland, regulated by Swiss financial regulatory standards. Our operations comply with strict Swiss and international AML and KYC requirements. A copy of our certification is available upon request from compliance@BetterCapitalInvestment.com.'
   },
   {
     q: 'How do I contact support?',

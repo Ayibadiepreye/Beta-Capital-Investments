@@ -153,7 +153,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'Is my investment insured or protected?',
-    a: 'Client funds are held in segregated accounts protected by AES-256 encryption and multi-signature cold storage. We conduct regular third-party audits. While all investments carry risk, our risk management framework is built to institutional standards.'
+    a: 'Client funds are held in segregated accounts protected by AES-256 encryption and multi-signature cold storage. We conduct regular third-party audits. Our risk management framework is built to institutional standards.'
   },
   {
     q: 'Can I withdraw my capital before maturity?',
@@ -161,11 +161,11 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What payment methods are accepted?',
-    a: 'We accept bank transfers (Monnify), card payments (Flutterwave), and cryptocurrency deposits including BTC, USDT-TRC20, and USDT-ERC20. All payment methods are listed in your deposit portal.'
+    a: 'We accept bank transfers (Monnify) and cryptocurrency deposits including BTC, USDT-TRC20, and USDT-ERC20. All payment methods are listed in your deposit portal.'
   },
   {
     q: 'How is Beta Capital Investment regulated?',
-    a: 'Beta Capital Investment is certified and registered as a financial services provider. Our operations comply with international AML and KYC requirements. A copy of our certification is available upon request from compliance@betacapitalinvestment.com.'
+    a: 'Beta Capital Investment is certified and registered as a financial services provider in Switzerland, regulated by Swiss financial regulatory standards. Our operations comply with strict Swiss and international AML and KYC requirements. A copy of our certification is available upon request from compliance@betacapitalinvestment.com.'
   },
   {
     q: 'How do I contact support?',

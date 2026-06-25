@@ -16,6 +16,7 @@ export interface UserSession {
   phoneNumber?: string;
   avatarUrl?: string;
   emailVerified?: boolean;
+  frozen?: boolean;
 }
 
 export interface Transaction {

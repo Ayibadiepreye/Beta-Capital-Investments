@@ -80,7 +80,7 @@ function TermsContent() {
       </Section>
 
       <Section title="4. Deposits & Withdrawals">
-        Deposits are processed via bank transfer (Monnify), card payment (Flutterwave), or cryptocurrency (BTC, USDT).
+        Deposits are processed via bank transfer (Monnify) or cryptocurrency (BTC, USDT).
         Withdrawals are subject to verification. Early withdrawal before plan maturity incurs a 5% exit fee on principal.
         Processing times vary by payment provider (typically 1–5 business days).
       </Section>
@@ -164,7 +164,7 @@ function PrivacyContent() {
       <Section title="4. Data Sharing">
         BetterCapitalInvestment does not sell your personal data. We may share data with:
         <ul className="list-disc pl-4 space-y-1 mt-1">
-          <li><strong>Payment processors</strong> (Monnify, Flutterwave) — solely to process your transactions</li>
+          <li><strong>Payment processors</strong> (Monnify) — solely to process your transactions</li>
           <li><strong>Google</strong> — if you choose to sign in with Google</li>
           <li><strong>Legal authorities</strong> — when required by law, regulation, or court order</li>
         </ul>

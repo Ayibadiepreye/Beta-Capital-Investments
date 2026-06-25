@@ -5,7 +5,8 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import { pool } from "@workspace/db";
+import { pool, db, usersTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -118,6 +119,27 @@ app.use(
     },
   }),
 );
+
+// Freeze account check middleware
+app.use(async (req: any, res: any, next: any) => {
+  const userId = req.session?.userId;
+  if (userId) {
+    try {
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (user && user.frozen) {
+        req.session.destroy(() => {
+          res.clearCookie("connect.sid");
+          res.status(403).json({ message: "Your account has been frozen. Please contact support.", code: "ACCOUNT_FROZEN" });
+        });
+        return;
+      }
+    } catch (err) {
+      next(err);
+      return;
+    }
+  }
+  next();
+});
 
 app.use("/api/auth", authLimiter);
 app.use("/api", apiLimiter);

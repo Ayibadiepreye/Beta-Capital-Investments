@@ -31,6 +31,7 @@ export const pool = new Pool(poolConfig);
 // Run database startup migrations to ensure new schema columns exist
 const migrationSql = `
   ALTER TABLE users ADD COLUMN IF NOT EXISTS admin_verified BOOLEAN NOT NULL DEFAULT false;
+  ALTER TABLE users ADD COLUMN IF NOT EXISTS frozen BOOLEAN NOT NULL DEFAULT false;
   ALTER TABLE users ADD COLUMN IF NOT EXISTS phone_number VARCHAR(30);
   ALTER TABLE payments ADD COLUMN IF NOT EXISTS proof_image_base64 TEXT;
   CREATE TABLE IF NOT EXISTS kyc_documents (

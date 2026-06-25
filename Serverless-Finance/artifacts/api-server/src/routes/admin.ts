@@ -134,12 +134,13 @@ router.get("/admin/users", requireAdmin, async (_req: Request, res: Response) =>
     bankAccountName: u.bankAccountName,
     cryptoWithdrawAddress: u.cryptoWithdrawAddress,
     cryptoWithdrawNetwork: u.cryptoWithdrawNetwork,
+    frozen: u.frozen,
   })));
 });
 
 router.patch("/admin/users/:id", requireAdmin, async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const { tier, isAdmin, emailVerified, liquidity, fullName, accountApproved } = req.body;
+  const { tier, isAdmin, emailVerified, liquidity, fullName, accountApproved, frozen } = req.body;
   const updates: Partial<typeof usersTable.$inferInsert> = {};
   if (tier !== undefined) updates.tier = tier;
   if (isAdmin !== undefined) updates.isAdmin = isAdmin;
@@ -147,6 +148,7 @@ router.patch("/admin/users/:id", requireAdmin, async (req: Request, res: Respons
   if (liquidity !== undefined) updates.liquidity = liquidity;
   if (fullName !== undefined) updates.fullName = fullName;
   if (accountApproved !== undefined) updates.accountApproved = accountApproved;
+  if (frozen !== undefined) updates.frozen = frozen;
 
   const [user] = await db.update(usersTable).set(updates).where(eq(usersTable.id, id)).returning();
   if (!user) { res.status(404).json({ message: "User not found" }); return; }
@@ -159,7 +161,7 @@ router.patch("/admin/users/:id", requireAdmin, async (req: Request, res: Respons
   res.json({ 
     id: user.id, email: user.email, fullName: user.fullName, tier: user.tier, 
     isAdmin: user.isAdmin, liquidity: user.liquidity, emailVerified: user.emailVerified,
-    accountApproved: user.accountApproved
+    accountApproved: user.accountApproved, frozen: user.frozen
   });
 });
 

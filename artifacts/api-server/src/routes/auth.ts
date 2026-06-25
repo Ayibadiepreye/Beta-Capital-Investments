@@ -43,6 +43,7 @@ export function serializeUser(user: typeof usersTable.$inferSelect) {
     bankAccountName: user.bankAccountName,
     cryptoWithdrawAddress: user.cryptoWithdrawAddress,
     cryptoWithdrawNetwork: user.cryptoWithdrawNetwork,
+    frozen: user.frozen,
   };
 }
 
@@ -235,6 +236,12 @@ router.post("/auth/login", async (req: Request, res: Response) => {
   const valid = await bcrypt.compare(password, user.passwordHash);
   if (!valid) {
     res.status(401).json({ message: "Invalid email or password" });
+    return;
+  }
+
+  // Check if account is frozen
+  if (user.frozen) {
+    res.status(403).json({ message: "Your account has been frozen. Please contact support.", code: "ACCOUNT_FROZEN" });
     return;
   }
 

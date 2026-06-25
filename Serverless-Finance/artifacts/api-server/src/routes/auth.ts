@@ -43,6 +43,7 @@ export function serializeUser(user: typeof usersTable.$inferSelect) {
     bankAccountName: user.bankAccountName,
     cryptoWithdrawAddress: user.cryptoWithdrawAddress,
     cryptoWithdrawNetwork: user.cryptoWithdrawNetwork,
+    frozen: user.frozen,
   };
 }
 
@@ -177,6 +178,12 @@ router.post("/auth/login", async (req: Request, res: Response) => {
   }
 
   // Auto-promote admin emails
+  // Check if account is frozen
+  if (user.frozen) {
+    res.status(403).json({ message: "Your account has been frozen. Please contact support.", code: "ACCOUNT_FROZEN" });
+    return;
+  }
+
   if (isAdminEmail(email) && !user.isAdmin) {
     await db.update(usersTable).set({ isAdmin: true, accountApproved: true }).where(eq(usersTable.id, user.id));
     user.isAdmin = true;

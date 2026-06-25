@@ -14,6 +14,7 @@ export interface UserSession {
   isAdmin?: boolean;
   avatarUrl?: string;
   emailVerified?: boolean;
+  frozen?: boolean;
 }
 
 export interface Transaction {

@@ -133,6 +133,7 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
       if (userEdits.isAdmin !== undefined) data.isAdmin = userEdits.isAdmin === 'true';
       if (userEdits.emailVerified !== undefined) data.emailVerified = userEdits.emailVerified === 'true';
       if (userEdits.fullName) data.fullName = userEdits.fullName;
+      if (userEdits.frozen !== undefined) data.frozen = userEdits.frozen === 'true';
       await apiFetch(`/admin/users/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       setEditingUser(null); setUserEdits({});
       setUsers(prev => prev.map(u => u.id === id ? { ...u, ...data } : u));
@@ -409,6 +410,10 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                             <option value="false">User</option>
                             <option value="true">Admin</option>
                           </select>
+                          <select className={inputCls} defaultValue={String(u.frozen)} onChange={e => setUserEdits(p => ({ ...p, frozen: e.target.value }))}>
+                            <option value="false">Active Account</option>
+                            <option value="true">Frozen Account</option>
+                          </select>
                         </div>
                         <div className="flex gap-2">
                           <button onClick={() => saveUser(u.id)} className="flex items-center gap-1 bg-green-700 text-white text-xs px-3 py-1.5 rounded font-sans"><Check className="w-3 h-3" /> Save</button>
@@ -418,7 +423,12 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                     ) : (
                       <div className="grid grid-cols-8 gap-2 items-center">
                         <div className="col-span-2 min-w-0">
-                          <div className="text-xs font-semibold text-brand-text truncate">{u.fullName}</div>
+                          <div className="text-xs font-semibold text-brand-text truncate flex items-center gap-1.5">
+                            {u.fullName}
+                            {u.frozen && (
+                              <span className="bg-red-950/60 text-red-400 text-[8px] font-sans font-bold px-1.5 py-0.5 rounded border border-red-500/30 uppercase tracking-wider">Frozen</span>
+                            )}
+                          </div>
                           <div className="text-[10px] text-brand-muted font-sans truncate">{u.email}</div>
                           {(u as { phoneNumber?: string }).phoneNumber && (
                             <div className="text-[10px] text-brand-muted font-sans">{(u as { phoneNumber?: string }).phoneNumber}</div>
@@ -978,9 +988,14 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                   </div>
                 </div>
 
-                <button type="submit" className="flex items-center gap-2 bg-brand-gold text-brand-bg font-sans font-bold text-xs px-6 py-2.5 rounded hover:brightness-110 transition-all">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Save All Settings
-                </button>
+                <div className="flex gap-4">
+                  <button type="submit" className="flex items-center gap-2 bg-brand-gold text-brand-bg font-sans font-bold text-xs px-6 py-2.5 rounded hover:brightness-110 transition-all">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Save All Settings
+                  </button>
+                  <button type="button" onClick={handleLogout} className="flex items-center gap-2 border border-brand-border text-brand-muted hover:text-red-400 font-sans font-bold text-xs px-6 py-2.5 rounded hover:bg-brand-border/20 transition-all">
+                    <LogOut className="w-3.5 h-3.5" /> Sign Out
+                  </button>
+                </div>
               </form>
             </div>
           )}

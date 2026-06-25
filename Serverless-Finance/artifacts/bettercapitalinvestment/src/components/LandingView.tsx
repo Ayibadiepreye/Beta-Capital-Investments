@@ -197,7 +197,7 @@ export default function LandingView({ onNavigate, session, onLogout, onUpdateThe
           <div className="absolute inset-0 bg-gradient-to-b from-brand-bg/20 via-brand-bg/60 to-brand-bg" />
         </div>
         <div className="relative z-10 max-w-4xl pt-12 md:pt-0">
-          <span className="text-brand-gold text-xs tracking-[0.25em] font-bold mb-4 block uppercase font-sans animate-pulse">Premium Wealth Management</span>
+          <span className="text-brand-gold text-xs tracking-[0.25em] font-bold mb-4 block uppercase font-sans animate-pulse">Trusted Wealth Platform · Regulated in Switzerland</span>
           <h1 className="text-4xl md:text-6xl md:leading-[72px] font-bold text-brand-text mb-6 animate-fadeInLeft delay-100">
             Secure and Steady <br />
             <span className="text-brand-gold italic font-serif">Wealth Growth</span>

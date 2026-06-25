@@ -16,6 +16,7 @@ export const usersTable = pgTable("users", {
   tier: varchar("tier", { length: 50 }).notNull().default("Gold Ore"),
   theme: varchar("theme", { length: 50 }).notNull().default("sovereign"),
   biometricEnabled: boolean("biometric_enabled").notNull().default(false),
+  frozen: boolean("frozen").notNull().default(false),
   liquidity: real("liquidity").notNull().default(0),
   // Withdrawal payout settings
   bankName: text("bank_name"),
