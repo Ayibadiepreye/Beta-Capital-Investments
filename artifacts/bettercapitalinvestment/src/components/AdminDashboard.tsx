@@ -3,7 +3,7 @@ import {
   Users, TrendingUp, Wallet, Activity, Settings, Bell, CreditCard,
   BarChart3, Loader2, LogOut, RefreshCw, Edit3, Check, X, ChevronDown,
   Shield, AlertTriangle, CheckCircle2, DollarSign, Layers, FileText,
-  Download, ArrowDownLeft, ShieldCheck, Copy
+  Download, ArrowDownLeft, ShieldCheck, Copy, Lock, Unlock
 } from 'lucide-react';
 import { ScreenType, UserSession } from '../types';
 import LogoIcon from './LogoIcon';
@@ -154,6 +154,19 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
       setUsers(prev => prev.filter(u => u.id !== id));
       showFeedback('User deleted — notification email sent');
     } catch { setError('Failed to delete user'); }
+  };
+
+  const toggleFreezeUser = async (u: any) => {
+    try {
+      const newFrozen = !u.frozen;
+      await apiFetch(`/admin/users/${u.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ frozen: newFrozen })
+      });
+      setUsers(prev => prev.map(usr => usr.id === u.id ? { ...usr, frozen: newFrozen } : usr));
+      showFeedback(newFrozen ? 'Account frozen' : 'Account unfrozen');
+    } catch { setError('Failed to toggle user freeze status'); }
   };
 
   // Investment edit
@@ -454,6 +467,13 @@ export default function AdminDashboard({ onNavigate, session, onLogout }: AdminD
                               <ShieldCheck className="w-3 h-3" />
                             </button>
                           )}
+                          <button
+                            onClick={() => toggleFreezeUser(u)}
+                            className={`p-1 rounded transition-colors ${u.frozen ? 'text-red-400 hover:text-red-300' : 'text-brand-muted hover:text-red-400'}`}
+                            title={u.frozen ? 'Unfreeze account' : 'Freeze account'}
+                          >
+                            {u.frozen ? <Unlock className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
+                          </button>
                           <button onClick={() => setEditingUser(u.id)} className="text-brand-muted hover:text-brand-gold transition-colors" title="Edit"><Edit3 className="w-3.5 h-3.5" /></button>
                           <button onClick={() => deleteUser(u.id)} className="text-brand-muted hover:text-red-400 transition-colors" title="Delete"><X className="w-3.5 h-3.5" /></button>
                         </div>
